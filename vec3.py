@@ -3,11 +3,8 @@ import math
 
 
 class vec3:
-    def __init__(self, e1=None, e2=None, e3=None) -> None:
-        if not e1:
-            self.e = array.array('d', [0,0,0])
-        else:
-            self.e = array.array('d', [e1, e2, e3])
+    def __init__(self, e1=0, e2=0, e3=0) -> None:
+        self.e = array.array('d', [e1, e2, e3])
     
     def x(self):
         return self.e[0]
@@ -69,6 +66,7 @@ class vec3:
 # type aliases
 point3 = vec3
 color = vec3
+
 
 if __name__=="__main__":
     point3 = vec3()

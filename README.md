@@ -1,1 +1,2 @@
-# Ray Tracing from scratch
+# Ray Tracing with Python
+![teaser](img/teaser.jpg)
