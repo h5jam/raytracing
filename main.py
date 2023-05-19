@@ -1,7 +1,7 @@
 import array
 from tqdm import tqdm
-from vec3 import vec3, point3, color
-from color import *
+from utils.vec3 import vec3, point3, color
+from utils.color import *
 
 def main():
     # ppm header
