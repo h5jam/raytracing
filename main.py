@@ -1,6 +1,7 @@
 import array
 from tqdm import tqdm
-
+from vec3 import vec3, point3, color
+from color import *
 
 def main():
     # ppm header
@@ -20,18 +21,8 @@ def main():
     for i in tqdm(range(h-1, -1, -1)):
         for j in range(w):
 
-            r = float(j) / (w-1)
-            g = float(i) / (h-1)
-            b = 0.25
-
-            ir = int(255 * r)
-            ig = int(255 * g)
-            ib = int(255 * b)
-
-            img[idx] = ir
-            img[idx+1] = ig
-            img[idx+2] = ib
-
+            pixel_color = color(float(j) / (w-1), float(i) / (h-1), 0.25)
+            write_color(pixel_color, img, idx)
             idx += 3
 
     # save image
