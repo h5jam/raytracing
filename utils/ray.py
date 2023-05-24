@@ -6,10 +6,10 @@ class ray:
         self.o = origin
         self.d = direction
 
-    def o(self):
+    def ori(self):
         return self.o
     
-    def d(self):
+    def dir(self):
         return self.d
     
     def at(self, t):
