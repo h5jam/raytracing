@@ -34,12 +34,15 @@ class vec3:
             return vec3(self.e[0] * v, 
                         self.e[1] * v, 
                         self.e[2] * v)
-        else:
-            return vec3(self.e[0] * v.e[0], 
+        return vec3(self.e[0] * v.e[0], 
                         self.e[1] * v.e[1], 
                         self.e[2] * v.e[2])
 
     def __sub__(self, v):
+        if isinstance(v, (int,float)):
+            return vec3(self.e[0] - v,
+                        self.e[1] - v,
+                        self.e[2] - v)
         return vec3(self.e[0] - v.e[0], 
                     self.e[1] - v.e[1], 
                     self.e[2] - v.e[2])
@@ -55,15 +58,16 @@ class vec3:
 
     # vector utility
     def dot(self, u):
-        return self.e[0] * u.e[0], \
-        self.e[1] * u.e[1], \
-        self.e[2] * u.e[2]
+        return self.e[0] * u.e[0]\
+        + self.e[1] * u.e[1]\
+        + self.e[2] * u.e[2]
     
     def cross(self, u):
-        self.e[0] = self.e[1] * u.e[2] - self.e[2] * u.e[1]
-        self.e[1] = self.e[2] * u.e[0] - self.e[0] * u.e[2]
-        self.e[2] = self.e[0] * u.e[1] - self.e[1] * u.e[0]
-        return vec3(self.e[0], self.e[1], self.e[2])
+        return vec3(
+        self.e[1] * u.e[2] - self.e[2] * u.e[1],
+        self.e[2] * u.e[0] - self.e[0] * u.e[2],
+        self.e[0] * u.e[1] - self.e[1] * u.e[0]
+        )
 
 
 def unit_vector(e):

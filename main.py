@@ -5,7 +5,19 @@ from utils.color import *
 from utils.ray import *
 
 
-def ray_color(r: color):
+def hit_sphere(center, radius, r):
+    oc = r.ori() - center
+    a = r.dir().dot(r.dir())
+    b = oc.dot(r.dir()) * 2.0
+    c = oc.dot(oc) - radius * radius
+    discriminant = b*b - a*c*4
+    return discriminant > 0
+
+
+def ray_color(r):
+    if hit_sphere(point3(0,0,-1), 0.5, r):
+        return color(1, 0, 0)
+    
     unit_dir = unit_vector(r.dir())
     t = 0.5*(unit_dir.y() + 1.0)
     return color(1.0, 1.0, 1.0)*(1.0-t) + color(0.5, 0.7, 1.0)*t
