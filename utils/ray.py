@@ -13,5 +13,5 @@ class ray:
         return self.d
     
     def at(self, t):
-        return self.o + t*self.d
+        return self.o + self.d*t
     

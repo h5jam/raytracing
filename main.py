@@ -11,13 +11,20 @@ def hit_sphere(center, radius, r):
     b = oc.dot(r.dir()) * 2.0
     c = oc.dot(oc) - radius * radius
     discriminant = b*b - a*c*4
-    return discriminant > 0
+    if discriminant < 0:
+        return -1.0
+    else:
+        return (-b - math.sqrt(discriminant)) / (2.0*a)
 
 
 def ray_color(r):
-    if hit_sphere(point3(0,0,-1), 0.5, r):
-        return color(1, 0, 0)
-    
+    # intersection
+    t = hit_sphere(point3(0,0,-1), 0.5, r) 
+    # hit
+    if t > 0.0:
+        N = unit_vector(r.at(t) - vec3(0,0,-1)) # calculate the normal in a simple way
+        return color(N.x()+1, N.y()+1, N.z()+1)*0.5 # [0,1]
+    # scene background
     unit_dir = unit_vector(r.dir())
     t = 0.5*(unit_dir.y() + 1.0)
     return color(1.0, 1.0, 1.0)*(1.0-t) + color(0.5, 0.7, 1.0)*t
