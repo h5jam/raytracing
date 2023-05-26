@@ -5,7 +5,7 @@ import math
 class vec3:
     def __init__(self, e1=0, e2=0, e3=0) -> None:
         self.e = array.array('d', [e1, e2, e3])
-        self.length = math.sqrt(self._length_squared())
+        self.length = math.sqrt(self.length_squared())
     
     def x(self):
         return self.e[0]
@@ -47,11 +47,11 @@ class vec3:
                     self.e[1] - v.e[1], 
                     self.e[2] - v.e[2])
 
-    def _length_squared(self):
+    def length_squared(self):
         return self.e[0]*self.e[0] + self.e[1]*self.e[1] + self.e[2]*self.e[2]
 
     def __len__(self):
-        return math.sqrt(self._length_squared())
+        return math.sqrt(self.length_squared())
     
     def __str__(self) -> str:
         return f'{self.e[0]} {self.e[1]} {self.e[2]}'
