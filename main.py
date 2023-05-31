@@ -3,7 +3,12 @@ from tqdm import tqdm
 from utils.vec3 import *
 from utils.color import *
 from utils.ray import *
+from hitting.hittable_list import *
+from hitting.sphere import *
 
+
+deg_to_rad = lambda d: d * math.pi / 180.0
+INF = math.inf
 
 def hit_sphere(center, radius, r):
     oc = r.ori() - center
@@ -17,13 +22,13 @@ def hit_sphere(center, radius, r):
         return (-half_b - math.sqrt(discriminant)) / a
 
 
-def ray_color(r):
-    # intersection
-    t = hit_sphere(point3(0,0,-1), 0.5, r) 
+def ray_color(r, world):
+    rec = hit_record()
+
     # hit
-    if t > 0.0:
-        N = unit_vector(r.at(t) - vec3(0,0,-1)) # calculate the normal in a simple way
-        return color(N.x()+1, N.y()+1, N.z()+1)*0.5 # [0,1]
+    if world.hit(r, 0, INF, rec):
+        return (rec.normal + color(1, 1, 1)) * 0.5
+
     # scene background
     unit_dir = unit_vector(r.dir())
     t = 0.5*(unit_dir.y() + 1.0)
@@ -46,6 +51,11 @@ def main():
     print(f'elements: {len(img)}')
     print(f'size of one element: {img.itemsize}')
 
+    # World
+    world = hittable_list()
+    world.add(sphere(point3(0,0,-1), 0.5))
+    world.add(sphere(point3(0,-100.5,-1), 100))
+
     # Camera
     viewport_height = 2.0
     viewport_width = aspect_ratio * viewport_height
@@ -56,7 +66,7 @@ def main():
     vertical = vec3(0, viewport_height, 0)
     lower_left_corner = origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length)
     
-    # test image
+    # render
     idx = 0
     for i in tqdm(range(height-1, -1, -1)):
         for j in range(width):
@@ -65,7 +75,7 @@ def main():
             v = float(i) / (height - 1)
             r = ray(origin, lower_left_corner + horizontal*u + vertical*v - origin)
 
-            c = ray_color(r)
+            c = ray_color(r, world)
             write_color(c, img, idx)
             idx += 3
 

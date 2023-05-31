@@ -1,4 +1,5 @@
-from hittable import *
+import copy
+from hitting.hittable import *
 
 
 class hittable_list(hittable):
@@ -20,6 +21,9 @@ class hittable_list(hittable):
             if object.hit(r, t_min, t_max, temp_rec):
                 hit_anything = True
                 closest_so_far = temp_rec.t
-                rec = temp_rec
+                # check the address in memory
+                # print('in: ', id(rec))
+                rec.copy_from(temp_rec)
+                # print('in: ', id(rec))
 
         return hit_anything

@@ -3,16 +3,24 @@ from dataclasses import dataclass
 from utils.ray import *
 
 
-@dataclass
+# @dataclass
 class hit_record:
-    p: point3
-    normal: vec3
-    t: float
-    front_face: bool
+    def __init__(self, p=None, normal=None, t=None, front_face=None) -> None:
+        self.p: point3 = p
+        self.normal: vec3 = normal
+        self.t: float = t
+        self.front_face: bool = front_face
 
     def set_face_normal(self, r, outward_normal):
         self.front_face = r.dir().dot(outward_normal) < 0
         self.normal = outward_normal if self.front_face else -outward_normal
+
+    # temporary..
+    def copy_from(self, other_rec):
+        self.p = other_rec.p
+        self.t = other_rec.t
+        self.normal = other_rec.normal
+        self.front_face = other_rec.front_face
 
 
 class hittable(metaclass=ABCMeta):

@@ -1,6 +1,6 @@
 import math
 
-from hittable import *
+from hitting.hittable import *
 from utils.vec3 import *
 
 
