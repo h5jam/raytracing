@@ -1,8 +1,10 @@
 import array
+import random
 from tqdm import tqdm
 from utils.vec3 import *
 from utils.color import *
 from utils.ray import *
+from utils.camera import *
 from hitting.hittable_list import *
 from hitting.sphere import *
 
@@ -44,6 +46,7 @@ def main():
     width = 400
     height = int(width / aspect_ratio)
     ppm_header = f'P6 {width} {height} {max_val}\n'
+    samples_per_pixel = 100
 
     # unsigned int8 image
     img = array.array('B', [0,0,0]*width*height)
@@ -57,26 +60,20 @@ def main():
     world.add(sphere(point3(0,-100.5,-1), 100))
 
     # Camera
-    viewport_height = 2.0
-    viewport_width = aspect_ratio * viewport_height
-    focal_length = 1.0
+    cam = Camera()
 
-    origin = point3(0, 0, 0)
-    horizontal = vec3(viewport_width, 0, 0)
-    vertical = vec3(0, viewport_height, 0)
-    lower_left_corner = origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length)
-    
     # render
     idx = 0
     for i in tqdm(range(height-1, -1, -1)):
         for j in range(width):
+            pixel_color = color(0, 0, 0)
+            for _ in range(samples_per_pixel):
+                u = float(j+random.random()) / (width - 1)
+                v = float(i+random.random()) / (height - 1)
+                r = cam.get_ray(u, v)
+                pixel_color += ray_color(r, world)
 
-            u = float(j) / (width - 1)
-            v = float(i) / (height - 1)
-            r = ray(origin, lower_left_corner + horizontal*u + vertical*v - origin)
-
-            c = ray_color(r, world)
-            write_color(c, img, idx)
+            write_color(pixel_color, samples_per_pixel, img, idx)
             idx += 3
 
     # save image
