@@ -24,12 +24,16 @@ def hit_sphere(center, radius, r):
         return (-half_b - math.sqrt(discriminant)) / a
 
 
-def ray_color(r, world):
+def ray_color(r, world, depth):
     rec = hit_record()
 
+    if depth <= 0:
+        return color(0, 0, 0)
+    
     # hit
     if world.hit(r, 0, INF, rec):
-        return (rec.normal + color(1, 1, 1)) * 0.5
+        target = rec.p + rec.normal + random_in_unit_sphere()
+        return ray_color(ray(rec.p, target-rec.p), world, depth-1) * 0.5
 
     # scene background
     unit_dir = unit_vector(r.dir())
@@ -46,7 +50,8 @@ def main():
     width = 400
     height = int(width / aspect_ratio)
     ppm_header = f'P6 {width} {height} {max_val}\n'
-    samples_per_pixel = 100
+    samples_per_pixel = 50
+    max_depth = 50
 
     # unsigned int8 image
     img = array.array('B', [0,0,0]*width*height)
@@ -71,7 +76,7 @@ def main():
                 u = float(j+random.random()) / (width - 1)
                 v = float(i+random.random()) / (height - 1)
                 r = cam.get_ray(u, v)
-                pixel_color += ray_color(r, world)
+                pixel_color += ray_color(r, world, max_depth)
 
             write_color(pixel_color, samples_per_pixel, img, idx)
             idx += 3

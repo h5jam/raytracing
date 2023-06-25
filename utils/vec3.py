@@ -1,5 +1,6 @@
 import array
 import math
+import random
 
 
 class vec3:
@@ -72,6 +73,22 @@ class vec3:
 
 def unit_vector(e):
     return e / e.length
+
+
+def random_vector(min=None, max=None):
+    if min is None or max is None:
+        return vec3(random.random(), random.random(), random.random())
+    else:
+        return vec3(random.uniform(min, max), random.uniform(min, max), random.uniform(min, max))
+
+
+def random_in_unit_sphere():
+    while True:
+        p = random_vector(min=-1, max=1)
+        if p.length_squared() < 1:
+            break
+    return p
+
 
 # type aliases
 point3 = vec3
