@@ -90,6 +90,18 @@ def random_in_unit_sphere():
     return p
 
 
+def random_unit_vector():
+    return unit_vector(random_in_unit_sphere())
+
+
+def random_in_hemisphere(normal):
+    in_unit = random_in_unit_sphere()
+    if in_unit.dot(normal) > 0.0:
+        return in_unit
+    else:
+        return -in_unit
+
+
 # type aliases
 point3 = vec3
 color = vec3

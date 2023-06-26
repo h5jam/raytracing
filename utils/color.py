@@ -9,9 +9,10 @@ def write_color(pixel_color, samples_per_pixel, img, idx):
     b = pixel_color.z()
 
     scale = 1.0 / samples_per_pixel
-    r = math.sqrt(scale * r)
-    g = math.sqrt(scale * g)
-    b = math.sqrt(scale * b)
+    gamma = 2.0
+    r = (scale * r)**(1/gamma)
+    g = (scale * g)**(1/gamma)
+    b = (scale * b)**(1/gamma)
 
     img[idx] = int(256*clamp(r, 0.0, 0.999))
     img[idx+1] = int(256*clamp(g, 0.0, 0.999))

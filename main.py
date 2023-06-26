@@ -31,8 +31,8 @@ def ray_color(r, world, depth):
         return color(0, 0, 0)
     
     # hit
-    if world.hit(r, 0, INF, rec):
-        target = rec.p + rec.normal + random_in_unit_sphere()
+    if world.hit(r, 0.001, INF, rec):
+        target = rec.p + rec.normal + random_in_hemisphere(rec.normal)
         return ray_color(ray(rec.p, target-rec.p), world, depth-1) * 0.5
 
     # scene background
