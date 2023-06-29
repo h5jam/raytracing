@@ -5,11 +5,12 @@ from utils.ray import *
 
 # @dataclass
 class hit_record:
-    def __init__(self, p=None, normal=None, t=None, front_face=None) -> None:
+    def __init__(self, p=None, normal=None, t=None, front_face=None, mat=None) -> None:
         self.p: point3 = p
         self.normal: vec3 = normal
         self.t: float = t
         self.front_face: bool = front_face
+        self.mat = mat
 
     def set_face_normal(self, r, outward_normal):
         self.front_face = r.dir().dot(outward_normal) < 0

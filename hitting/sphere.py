@@ -5,9 +5,10 @@ from utils.vec3 import *
 
 
 class sphere(hittable):
-    def __init__(self, center, radius) -> None:
+    def __init__(self, center, radius, m) -> None:
         self.center = center
         self.radius = radius
+        self.mat = m
     
     def hit(self, r, t_min, t_max, rec):
         oc = r.ori() - self.center
@@ -30,6 +31,7 @@ class sphere(hittable):
         # record hitting
         rec.t = root
         rec.p = r.at(rec.t)
+        rec.mat = self.m
         outward_normal = (rec.p - self.center) / self.radius
         rec.set_face_normal(r, outward_normal)
 
