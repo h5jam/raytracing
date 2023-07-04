@@ -69,6 +69,10 @@ class vec3:
         self.e[2] * u.e[0] - self.e[0] * u.e[2],
         self.e[0] * u.e[1] - self.e[1] * u.e[0]
         )
+    
+    def near_zero(self):
+        s = 1e-8
+        return abs(self.e[0] < s) and abs(self.e[1] < s) and abs(self.e[2] < s)
 
 
 def unit_vector(e):
@@ -100,6 +104,10 @@ def random_in_hemisphere(normal):
         return in_unit
     else:
         return -in_unit
+
+
+def reflect(v: vec3, n: vec3):
+    return v - n*v.dot(n)*2
 
 
 # type aliases
