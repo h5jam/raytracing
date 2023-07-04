@@ -23,15 +23,15 @@ class sphere(hittable):
         sqrtd = math.sqrt(discriminant)
 
         # search the nearest root lying in the acceptable range
-        root = (-half_b - sqrtd) / a
+        root = (-half_b - sqrtd) / (a + 1e-6)
         if root < t_min or t_max < root:
-            root = (-half_b + sqrtd) / a
+            root = (-half_b + sqrtd) / (a + 1e-6)
             if root < t_min or t_max < root:
                 return False
         # record hitting
         rec.t = root
         rec.p = r.at(rec.t)
-        rec.mat = self.m
+        rec.mat = self.mat
         outward_normal = (rec.p - self.center) / self.radius
         rec.set_face_normal(r, outward_normal)
 

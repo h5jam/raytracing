@@ -7,6 +7,7 @@ from utils.ray import *
 from utils.camera import *
 from hitting.hittable_list import *
 from hitting.sphere import *
+from utils.material import *
 
 
 deg_to_rad = lambda d: d * math.pi / 180.0
@@ -32,8 +33,10 @@ def ray_color(r, world, depth):
     
     # hit
     if world.hit(r, 0.001, INF, rec):
-        target = rec.p + random_in_hemisphere(rec.normal)
-        return ray_color(ray(rec.p, target-rec.p), world, depth-1) * 0.5
+        attenuation = color()
+        scattered = ray()
+        if rec.mat.scatter(r, rec, attenuation, scattered):
+            return attenuation * ray_color(scattered, world, depth-1)
 
     # scene background
     unit_dir = unit_vector(r.dir())
@@ -61,8 +64,12 @@ def main():
 
     # World
     world = hittable_list()
-    world.add(sphere(point3(0,0,-1), 0.5))
-    world.add(sphere(point3(0,-100.5,-1), 100))
+
+    material_ground = lambertian(color(0.8, 0.8, 0.0))
+    material_center = lambertian(color(0.7, 0.3, 0.3))
+
+    world.add(sphere(point3(0.0, -100.5, -1.0), 100.0, material_ground))
+    world.add(sphere(point3(0.0, 0.0, -1.0), 0.5, material_center))
 
     # Camera
     cam = Camera()

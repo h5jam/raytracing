@@ -22,6 +22,7 @@ class hit_record:
         self.t = other_rec.t
         self.normal = other_rec.normal
         self.front_face = other_rec.front_face
+        self.mat = other_rec.mat
 
 
 class hittable(metaclass=ABCMeta):

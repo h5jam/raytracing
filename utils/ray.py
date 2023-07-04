@@ -2,9 +2,13 @@ from utils.vec3 import *
 
 
 class ray:
-    def __init__(self, origin, direction) -> None:
-        self.o = origin
-        self.d = direction
+    def __init__(self, origin=None, direction=None) -> None:
+        if origin is None:
+            self.o = vec3()
+            self.d = vec3()
+        else:    
+            self.o = origin
+            self.d = direction
 
     def ori(self):
         return self.o
