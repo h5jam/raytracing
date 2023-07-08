@@ -16,6 +16,10 @@ class vec3:
     
     def z(self):
         return self.e[2]
+
+    def copy_from(self, oth_vec):
+        self.e = oth_vec.e
+        self.length = oth_vec.length
     
     def __add__(self, v):
         return vec3(self.e[0] + v.e[0], 
@@ -72,7 +76,7 @@ class vec3:
     
     def near_zero(self):
         s = 1e-8
-        return abs(self.e[0] < s) and abs(self.e[1] < s) and abs(self.e[2] < s)
+        return (abs(self.e[0] < s) and abs(self.e[1] < s)) and abs(self.e[2] < s)
 
 
 def unit_vector(e):

@@ -16,12 +16,10 @@ class lambertian(material):
 
     def scatter(self, r_in, rec, attenuation, scattered):
         scatter_dir = rec.normal + random_unit_vector()
-
         if scatter_dir.near_zero():
             scatter_dir = rec.normal
-
-        scattered = ray(rec.p, scatter_dir)
-        attenuation = self.albedo
+        scattered.set_ray(rec.p, scatter_dir)
+        attenuation.copy_from(self.albedo)
 
         return True
 
@@ -32,7 +30,7 @@ class metal(material):
 
     def scatter(self, r_in, rec, attenuation, scattered):
         reflected = reflect(unit_vector(r_in.dir()), rec.normal)
-        scattered = ray(rec.p, reflected)
-        attenuation = self.albedo
+        scattered.set_ray(rec.p, reflected)
+        attenuation.copy_from(self.albedo)
 
         return scattered.dir().dot(rec.normal) > 0

@@ -19,3 +19,6 @@ class ray:
     def at(self, t):
         return self.o + self.d*t
     
+    def set_ray(self, ori, dir):
+        self.o = ori
+        self.d = dir
