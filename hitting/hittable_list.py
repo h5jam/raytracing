@@ -18,7 +18,7 @@ class hittable_list(hittable):
         closest_so_far = t_max
 
         for object in self.objects:
-            if object.hit(r, t_min, t_max, temp_rec):
+            if object.hit(r, t_min, closest_so_far, temp_rec):
                 hit_anything = True
                 closest_so_far = temp_rec.t
                 # check the address in memory
