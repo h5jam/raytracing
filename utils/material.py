@@ -25,12 +25,13 @@ class lambertian(material):
 
 
 class metal(material):
-    def __init__(self, a: color) -> None:
+    def __init__(self, a: color, f) -> None:
         self.albedo = a
+        self.fuzz = f if f < 1 else 1
 
     def scatter(self, r_in, rec, attenuation, scattered):
         reflected = reflect(unit_vector(r_in.dir()), rec.normal)
-        scattered.set_ray(rec.p, reflected)
+        scattered.set_ray(rec.p, reflected + random_in_unit_sphere()*self.fuzz)
         attenuation.copy_from(self.albedo)
 
         return scattered.dir().dot(rec.normal) > 0
